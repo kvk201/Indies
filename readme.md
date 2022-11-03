@@ -1,6 +1,6 @@
 #INDIES
 
-Indies is a project by Saare Jaha Se accha(NGO) for the benifit of Stray Dogs, to help with Medication, Vaccination and Care in a systematic organized way.
+Indies is a project by Saare Jaha Se accha(NGO) for the benefit of Stray Dogs, to help with Medication, Vaccination and Care in a systematic organized way.
 We are approved and funded by the PMC (pune municipal corporation, Maharashtra, India)
 
 
