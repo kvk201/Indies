@@ -1,0 +1,611 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}{\f1\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\widctlpar\sa200\sl276\slmult1\f0\fs22\lang16393 -- MySQL Workbench Forward Engineering\par
+\par
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;\par
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;\par
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';\par
+\par
+-- -----------------------------------------------------\par
+-- Schema mydb\par
+-- -----------------------------------------------------\par
+\par
+-- -----------------------------------------------------\par
+-- Schema mydb\par
+-- -----------------------------------------------------\par
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;\par
+USE `mydb` ;\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`area_master`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`area_master` (\par
+  `area` VARCHAR(45) NOT NULL,\par
+  PRIMARY KEY (`area`))\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`DOG`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`DOG` (\par
+  `dog_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,\par
+  `nfc_id` VARCHAR(45) NULL,\par
+  `name` VARCHAR(60) NOT NULL,\par
+  `photo` LONGBLOB NULL,\par
+  `age` INT NULL,\par
+  `gender` ENUM('M', 'F') NOT NULL,\par
+  `description` TEXT(500) NULL,\par
+  `registration_date` DATE NOT NULL,\par
+  `area` VARCHAR(45) NOT NULL,\par
+  PRIMARY KEY (`dog_id`),\par
+  UNIQUE INDEX `nfc_id_UNIQUE` (`nfc_id` ASC),\par
+  INDEX `fk_DOG_area1_idx` (`area` ASC),\par
+  CONSTRAINT `fk_DOG_area1`\par
+    FOREIGN KEY (`area`)\par
+    REFERENCES `mydb`.`area_master` (`area`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`vet_clinic`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`vet_clinic` (\par
+  `clinic_id` INT NOT NULL,\par
+  `name` VARCHAR(100) NULL,\par
+  `address` TINYTEXT NULL,\par
+  `phone_no` VARCHAR(45) NULL,\par
+  `email_id` VARCHAR(45) NULL,\par
+  `city` VARCHAR(45) NULL,\par
+  `area` VARCHAR(45) NOT NULL,\par
+  PRIMARY KEY (`clinic_id`),\par
+  INDEX `fk_vet_clinic_area_master1_idx` (`area` ASC),\par
+  CONSTRAINT `fk_vet_clinic_area_master1`\par
+    FOREIGN KEY (`area`)\par
+    REFERENCES `mydb`.`area_master` (`area`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`vet_doctors`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`vet_doctors` (\par
+  `vet_id` INT NOT NULL,\par
+  `name` VARCHAR(100) NULL,\par
+  `phone_no` VARCHAR(45) NULL,\par
+  `email_id` VARCHAR(45) NULL,\par
+  `area` VARCHAR(45) NOT NULL,\par
+  PRIMARY KEY (`vet_id`),\par
+  INDEX `fk_vet_doctors_area_master1_idx` (`area` ASC),\par
+  CONSTRAINT `fk_vet_doctors_area_master1`\par
+    FOREIGN KEY (`area`)\par
+    REFERENCES `mydb`.`area_master` (`area`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`volunteer`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`volunteer` (\par
+  `volunteer_id` INT NOT NULL,\par
+  `name` VARCHAR(100) NOT NULL,\par
+  `address` VARCHAR(200) NULL,\par
+  `dob` DATE NOT NULL,\par
+  `gender` ENUM('M', 'F', 'O') NOT NULL,\par
+  `email_id` VARCHAR(45) NULL,\par
+  `phone_no` VARCHAR(45) NOT NULL,\par
+  `phone_no_secondary` VARCHAR(45) NULL,\par
+  `emergency_no` VARCHAR(45) NULL,\par
+  `registration_date` DATE NOT NULL,\par
+  `reports_to` VARCHAR(100) NULL,\par
+  `affilated_ngo` VARCHAR(100) NULL,\par
+  `area` VARCHAR(45) NOT NULL,\par
+  PRIMARY KEY (`volunteer_id`),\par
+  INDEX `fk_volunteer_area1_idx` (`area` ASC),\par
+  CONSTRAINT `fk_volunteer_area1`\par
+    FOREIGN KEY (`area`)\par
+    REFERENCES `mydb`.`area_master` (`area`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`steralization_history`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`steralization_history` (\par
+  `steralization_id` INT NOT NULL,\par
+  `dog_id` INT NULL,\par
+  `dog_is_sterelized` ENUM('Y', 'N') NULL,\par
+  `sterelized_on` DATE NULL,\par
+  `sterelization` VARCHAR(100) NULL,\par
+  PRIMARY KEY (`steralization_id`))\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`VETtoC`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`VETtoC` (\par
+  `vet_id` INT NOT NULL,\par
+  `clinic_id` INT NOT NULL,\par
+  PRIMARY KEY (`clinic_id`, `vet_id`),\par
+  INDEX `fk_VETtoC_vet_clinic1_idx` (`clinic_id` ASC),\par
+  INDEX `fk_VETtoC_vet_doctors1_idx` (`vet_id` ASC),\par
+  CONSTRAINT `fk_VETtoC_vet_clinic1`\par
+    FOREIGN KEY (`clinic_id`)\par
+    REFERENCES `mydb`.`vet_clinic` (`clinic_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION,\par
+  CONSTRAINT `fk_VETtoC_vet_doctors1`\par
+    FOREIGN KEY (`vet_id`)\par
+    REFERENCES `mydb`.`vet_doctors` (`vet_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`vet_hospital`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`vet_hospital` (\par
+  `hospital_id` INT NOT NULL,\par
+  `name` VARCHAR(45) NULL,\par
+  `city` VARCHAR(45) NULL,\par
+  `address` VARCHAR(45) NULL,\par
+  `phone_no` VARCHAR(45) NULL,\par
+  `email_id` VARCHAR(45) NULL,\par
+  `area` VARCHAR(45) NOT NULL,\par
+  PRIMARY KEY (`hospital_id`),\par
+  INDEX `fk_vet_hospital_area_master1_idx` (`area` ASC),\par
+  CONSTRAINT `fk_vet_hospital_area_master1`\par
+    FOREIGN KEY (`area`)\par
+    REFERENCES `mydb`.`area_master` (`area`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`VETtoH`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`VETtoH` (\par
+  `vet_id` INT NOT NULL,\par
+  `hospital_id` INT NOT NULL,\par
+  PRIMARY KEY (`vet_id`, `hospital_id`),\par
+  INDEX `fk_VETtoH_vet_doctors1_idx` (`vet_id` ASC),\par
+  INDEX `fk_VETtoH_vet_hospital1_idx` (`hospital_id` ASC),\par
+  CONSTRAINT `fk_VETtoH_vet_doctors1`\par
+    FOREIGN KEY (`vet_id`)\par
+    REFERENCES `mydb`.`vet_doctors` (`vet_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION,\par
+  CONSTRAINT `fk_VETtoH_vet_hospital1`\par
+    FOREIGN KEY (`hospital_id`)\par
+    REFERENCES `mydb`.`vet_hospital` (`hospital_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`dog_status`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`dog_status` (\par
+  `dog_id` INT UNSIGNED NOT NULL,\par
+  `healthy` TINYINT(1) NULL,\par
+  `infirm` TINYINT(1) NULL,\par
+  `disabled` TINYINT(1) NULL,\par
+  `deceased` TINYINT(1) NULL,\par
+  `fostering_availability` TINYINT(1) NULL,\par
+  `fostered_from` DATE NULL,\par
+  `fostered_till` DATE NULL,\par
+  `adoption_availability` TINYINT(1) NULL,\par
+  `adopted_by` VARCHAR(100) NULL,\par
+  `added_by` VARCHAR(100) NULL,\par
+  PRIMARY KEY (`dog_id`),\par
+  CONSTRAINT `fk_dog_status_DOG1`\par
+    FOREIGN KEY (`dog_id`)\par
+    REFERENCES `mydb`.`DOG` (`dog_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`event_id_generator`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`event_id_generator` (\par
+  `event_id` INT NOT NULL AUTO_INCREMENT,\par
+  PRIMARY KEY (`event_id`))\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`sterilization_history`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`sterilization_history` (\par
+  `event_id` INT NOT NULL,\par
+  `type` VARCHAR(45) NULL,\par
+  `dog_id` INT UNSIGNED NOT NULL,\par
+  `is_sterilized` TINYINT(1) NULL,\par
+  `sterilized_on` DATE NULL,\par
+  `sterilized_location` VARCHAR(45) NULL,\par
+  PRIMARY KEY (`event_id`),\par
+  INDEX `fk_sterilization_history_DOG1_idx` (`dog_id` ASC),\par
+  CONSTRAINT `fk_sterilization_history_event_id_generator1`\par
+    FOREIGN KEY (`event_id`)\par
+    REFERENCES `mydb`.`event_id_generator` (`event_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION,\par
+  CONSTRAINT `fk_sterilization_history_DOG1`\par
+    FOREIGN KEY (`dog_id`)\par
+    REFERENCES `mydb`.`DOG` (`dog_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`vaccination_history`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`vaccination_history` (\par
+  `event_id` INT NOT NULL,\par
+  `type` VARCHAR(45) NULL,\par
+  `dog_id` INT UNSIGNED NOT NULL,\par
+  `vaccine_name` VARCHAR(45) NULL,\par
+  `is_vaccinated` TINYINT(1) NULL,\par
+  `vaccinated_on` DATE NULL,\par
+  `vaccinated_till` DATE NULL,\par
+  `**vaccinated_location` VARCHAR(45) NULL,\par
+  PRIMARY KEY (`event_id`),\par
+  INDEX `fk_vaccination_history_DOG1_idx` (`dog_id` ASC),\par
+  CONSTRAINT `fk_vaccination_history_event_id_generator1`\par
+    FOREIGN KEY (`event_id`)\par
+    REFERENCES `mydb`.`event_id_generator` (`event_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION,\par
+  CONSTRAINT `fk_vaccination_history_DOG1`\par
+    FOREIGN KEY (`dog_id`)\par
+    REFERENCES `mydb`.`DOG` (`dog_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`general_medical_history`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`general_medical_history` (\par
+  `event_id` INT NOT NULL,\par
+  `type` VARCHAR(45) NULL,\par
+  `dog_id` INT UNSIGNED NOT NULL,\par
+  `description` TEXT(200) NULL,\par
+  `is_treated` TINYINT(1) NULL,\par
+  `treated_by` VARCHAR(45) NULL,\par
+  `treated_on` DATETIME NULL,\par
+  PRIMARY KEY (`event_id`),\par
+  INDEX `fk_general_medical_history_DOG1_idx` (`dog_id` ASC),\par
+  CONSTRAINT `fk_general_medical_history_event_id_generator1`\par
+    FOREIGN KEY (`event_id`)\par
+    REFERENCES `mydb`.`event_id_generator` (`event_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION,\par
+  CONSTRAINT `fk_general_medical_history_DOG1`\par
+    FOREIGN KEY (`dog_id`)\par
+    REFERENCES `mydb`.`DOG` (`dog_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`events_RFA`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`events_RFA` (\par
+  `event_id` INT NOT NULL,\par
+  `event_type` VARCHAR(45) NULL,\par
+  `dog_id` INT UNSIGNED NOT NULL,\par
+  `volunteer_id` INT NULL,\par
+  `event_status` TINYINT(1) NULL,\par
+  `starting_time` DATETIME NULL,\par
+  `ending_time` DATETIME NULL,\par
+  PRIMARY KEY (`event_id`),\par
+  INDEX `fk_events_RFA_DOG1_idx` (`dog_id` ASC),\par
+  CONSTRAINT `fk_events_RFA_event_id_generator1`\par
+    FOREIGN KEY (`event_id`)\par
+    REFERENCES `mydb`.`event_id_generator` (`event_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION,\par
+  CONSTRAINT `fk_events_RFA_DOG1`\par
+    FOREIGN KEY (`dog_id`)\par
+    REFERENCES `mydb`.`DOG` (`dog_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`volunteer_availabilty`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`volunteer_availabilty` (\par
+  `volunteer_id` INT NOT NULL,\par
+  `monday` TINYINT(1) NULL,\par
+  `monday_time` ENUM('T1', 'T2', 'T3', 'T4') NULL,\par
+  `tuesday` TINYINT(1) NULL,\par
+  `tuesday_time` ENUM('T1', 'T2', 'T3', 'T4') NULL,\par
+  `wednesday` TINYINT(1) NULL,\par
+  `wednesday_time` ENUM('T1', 'T2', 'T3', 'T4') NULL,\par
+  `thursday` TINYINT(1) NULL,\par
+  `thursday_time` ENUM('T1', 'T2', 'T3', 'T4') NULL,\par
+  `friday` TINYINT(1) NULL,\par
+  `friday_time` ENUM('T1', 'T2', 'T3', 'T4') NULL,\par
+  `saturday` TINYINT(1) NULL,\par
+  `saturday_time` ENUM('T1', 'T2', 'T3', 'T4') NULL,\par
+  `sunday` TINYINT(1) NULL,\par
+  `sunday_time` ENUM('T1', 'T2', 'T3', 'T4') NULL,\par
+  PRIMARY KEY (`volunteer_id`),\par
+  CONSTRAINT `fk_volunteer_availabilty_volunteer1`\par
+    FOREIGN KEY (`volunteer_id`)\par
+    REFERENCES `mydb`.`volunteer` (`volunteer_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`relevant_skills`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`relevant_skills` (\par
+  `volunteer_id` INT NOT NULL,\par
+  `vet_training` TINYINT(1) NULL,\par
+  `emegency_medical_training` TINYINT(1) NULL,\par
+  `it` TINYINT(1) NULL,\par
+  `graphics_design` TINYINT(1) NULL,\par
+  `legal_expertise` TINYINT(1) NULL,\par
+  `carpentery_repair` TINYINT(1) NULL,\par
+  `photography_video` TINYINT(1) NULL,\par
+  `event_management` TINYINT(1) NULL,\par
+  `content_writing` TINYINT(1) NULL,\par
+  `art` TINYINT(1) NULL,\par
+  `marketting` TINYINT(1) NULL,\par
+  `teaching` TINYINT(1) NULL,\par
+  `other_skills` TEXT NULL,\par
+  `previous_experience` TEXT NULL,\par
+  PRIMARY KEY (`volunteer_id`),\par
+  CONSTRAINT `fk_relevant_skills_volunteer1`\par
+    FOREIGN KEY (`volunteer_id`)\par
+    REFERENCES `mydb`.`volunteer` (`volunteer_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`current_location`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`current_location` (\par
+  `volunteer_id` INT NOT NULL,\par
+  `latitude` DOUBLE NULL,\par
+  `longitude` DOUBLE NULL,\par
+  `location_time` TIMESTAMP NULL,\par
+  PRIMARY KEY (`volunteer_id`),\par
+  CONSTRAINT `fk_current_location_volunteer1`\par
+    FOREIGN KEY (`volunteer_id`)\par
+    REFERENCES `mydb`.`volunteer` (`volunteer_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`volunteer_authentication`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`volunteer_authentication` (\par
+  `volunteer_id` INT NOT NULL,\par
+  `id_proof1` BLOB NULL,\par
+  `id_proof2` BLOB NULL,\par
+  `user_id` VARCHAR(50) NULL,\par
+  `password` VARCHAR(100) NULL,\par
+  `security_clearance_level` ENUM('WH', 'V') NULL,\par
+  PRIMARY KEY (`volunteer_id`),\par
+  CONSTRAINT `fk_volunteer_authentication_volunteer1`\par
+    FOREIGN KEY (`volunteer_id`)\par
+    REFERENCES `mydb`.`volunteer` (`volunteer_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`virtual_bank`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`virtual_bank` (\par
+  `area` VARCHAR(45) NOT NULL,\par
+  `funds` FLOAT NULL,\par
+  `reserved_funds` FLOAT NULL,\par
+  PRIMARY KEY (`area`),\par
+  CONSTRAINT `fk_area_virtual_bank_area_master1`\par
+    FOREIGN KEY (`area`)\par
+    REFERENCES `mydb`.`area_master` (`area`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`donation_records`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`donation_records` (\par
+  `donation_id` INT NOT NULL,\par
+  `area` VARCHAR(45) NOT NULL,\par
+  `name` VARCHAR(100) NULL,\par
+  `pan_number` VARCHAR(30) NULL,\par
+  `amount` FLOAT NULL,\par
+  `address` TEXT NULL,\par
+  `phone_number` VARCHAR(20) NULL,\par
+  `mode_of_payment` ENUM('CHK', 'DD', 'OLN', 'DBC', 'CC') NULL,\par
+  PRIMARY KEY (`donation_id`),\par
+  INDEX `fk_donation_records_area_master1_idx` (`area` ASC),\par
+  CONSTRAINT `fk_donation_records_area_master1`\par
+    FOREIGN KEY (`area`)\par
+    REFERENCES `mydb`.`area_master` (`area`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`task_id_generator`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`task_id_generator` (\par
+  `task_id` INT NOT NULL AUTO_INCREMENT,\par
+  PRIMARY KEY (`task_id`))\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`task_general`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`task_general` (\par
+  `task_id` INT NOT NULL,\par
+  `task_type` VARCHAR(45) NULL,\par
+  `dog_id` INT UNSIGNED NOT NULL,\par
+  `task description` VARCHAR(45) NULL,\par
+  `date` DATE NULL,\par
+  `active` TINYINT(1) NULL,\par
+  `status` ENUM('complete', 'pending') NULL,\par
+  PRIMARY KEY (`task_id`),\par
+  INDEX `fk_task_general_DOG1_idx` (`dog_id` ASC),\par
+  CONSTRAINT `fk_task_general_task_id_generator1`\par
+    FOREIGN KEY (`task_id`)\par
+    REFERENCES `mydb`.`task_id_generator` (`task_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION,\par
+  CONSTRAINT `fk_task_general_DOG1`\par
+    FOREIGN KEY (`dog_id`)\par
+    REFERENCES `mydb`.`DOG` (`dog_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`tasks_feeding`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`tasks_feeding` (\par
+  `task_id` INT NOT NULL,\par
+  `task_type` VARCHAR(45) NULL,\par
+  `dog_id` INT UNSIGNED NOT NULL,\par
+  `date` DATE NULL,\par
+  `active` TINYINT(1) NULL,\par
+  `status` ENUM('completed', 'pending') NULL,\par
+  PRIMARY KEY (`task_id`),\par
+  INDEX `fk_tasks_feeding_DOG1_idx` (`dog_id` ASC),\par
+  CONSTRAINT `fk_feeding_data_permanent_task_id_generator1`\par
+    FOREIGN KEY (`task_id`)\par
+    REFERENCES `mydb`.`task_id_generator` (`task_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION,\par
+  CONSTRAINT `fk_tasks_feeding_DOG1`\par
+    FOREIGN KEY (`dog_id`)\par
+    REFERENCES `mydb`.`DOG` (`dog_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`feeding_data_permanent`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`feeding_data_permanent` (\par
+  `dog_id` INT UNSIGNED NOT NULL,\par
+  `last_fed_on` DATE NULL,\par
+  PRIMARY KEY (`dog_id`),\par
+  CONSTRAINT `fk_feeding_data_permanent_DOG1`\par
+    FOREIGN KEY (`dog_id`)\par
+    REFERENCES `mydb`.`DOG` (`dog_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`volunteer_task_tracker`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`volunteer_task_tracker` (\par
+  `task_id` INT NOT NULL,\par
+  `volunteer_id` INT NOT NULL,\par
+  PRIMARY KEY (`task_id`),\par
+  INDEX `fk_volunteer_task_tracker_volunteer1_idx` (`volunteer_id` ASC),\par
+  CONSTRAINT `fk_volunteer_task_tracker_volunteer1`\par
+    FOREIGN KEY (`volunteer_id`)\par
+    REFERENCES `mydb`.`volunteer` (`volunteer_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`volunteer_event_tracker`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`volunteer_event_tracker` (\par
+  `event_id` INT NOT NULL,\par
+  `volunteer_id` INT NOT NULL,\par
+  PRIMARY KEY (`event_id`),\par
+  INDEX `fk_volunteer_event_tracker_volunteer1_idx` (`volunteer_id` ASC),\par
+  CONSTRAINT `fk_volunteer_event_tracker_volunteer1`\par
+    FOREIGN KEY (`volunteer_id`)\par
+    REFERENCES `mydb`.`volunteer` (`volunteer_id`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+\par
+-- -----------------------------------------------------\par
+-- Table `mydb`.`expenditure_records`\par
+-- -----------------------------------------------------\par
+CREATE TABLE IF NOT EXISTS `mydb`.`expenditure_records` (\par
+  `expenditure_id` INT NOT NULL,\par
+  `amount` FLOAT NULL,\par
+  `area` VARCHAR(45) NOT NULL,\par
+  PRIMARY KEY (`expenditure_id`),\par
+  INDEX `fk_expenditure_records_area_master1_idx` (`area` ASC),\par
+  CONSTRAINT `fk_expenditure_records_area_master1`\par
+    FOREIGN KEY (`area`)\par
+    REFERENCES `mydb`.`area_master` (`area`)\par
+    ON DELETE NO ACTION\par
+    ON UPDATE NO ACTION)\par
+ENGINE = InnoDB;\par
+\par
+USE `mydb`;\par
+\par
+DELIMITER $$\par
+USE `mydb`$$\par
+CREATE DEFINER = CURRENT_USER TRIGGER `mydb`.`donation_records_AFTER_INSERT` AFTER INSERT ON `donation_records` FOR EACH ROW\par
+BEGIN\par
+\tab UPDATE virtual_bank SET virtual_bank.funds = (virtual_bank.funds + inserted.amount) WHERE virtual_bank.area=inserted.area;\par
+END$$\par
+\par
+USE `mydb`$$\par
+CREATE DEFINER = CURRENT_USER TRIGGER `mydb`.`expenditure_records_AFTER_INSERT` AFTER INSERT ON `expenditure_records` FOR EACH ROW\par
+BEGIN\par
+\tab UPDATE virtual_bank SET virtual_bank.funds = (virtual_bank.funds - inserted.amount) WHERE virtual_bank.area=inserted.area;\par
+END$$\par
+\par
+\par
+DELIMITER ;\par
+\par
+SET SQL_MODE=@OLD_SQL_MODE;\par
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;\par
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;\par
+
+\pard\sa200\sl276\slmult1\f1\lang9\par
+}
+ 

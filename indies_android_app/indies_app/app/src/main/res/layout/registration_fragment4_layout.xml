@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select Your Skills" />
+
+        <CheckBox
+            android:id="@+id/s1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CheckBox"
+            tools:text="rescue" />
+
+        <CheckBox
+            android:id="@+id/s2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Volunteer Training" />
+
+        <CheckBox
+            android:id="@+id/s3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="IT" />
+
+        <CheckBox
+            android:id="@+id/s4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Medicine" />
+
+        <CheckBox
+            android:id="@+id/s5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Legal" />
+
+        <CheckBox
+            android:id="@+id/s6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Carpentery" />
+
+        <CheckBox
+            android:id="@+id/s7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Photo_Video" />
+
+        <CheckBox
+            android:id="@+id/s8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Event_Management" />
+
+        <CheckBox
+            android:id="@+id/s9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Content_Writing" />
+
+        <CheckBox
+            android:id="@+id/s10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Marketing" />
+
+        <CheckBox
+            android:id="@+id/s11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Multilingual" />
+
+        <EditText
+            android:id="@+id/s_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="other "
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:maxLines="2" />
+    </LinearLayout>
+</RelativeLayout>

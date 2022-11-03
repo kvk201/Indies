@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Indies</string>
+    <string name="name">Name</string>
+    <string name="emailid">Email ID</string>
+    <string name="password">Password</string>
+    <string name="cpassword">Confirm Password</string>
+    <string name="phoneno">Phone Number</string>
+    <string name="imagebutton1">imagebutton1</string>
+
+    <string name="letters">abcdefghijklmnopqrstuvwxyz "</string>
+    <string name="numbers">1234567890</string>
+
+    <string name="condition1">condn</string>
+    <string name="condition2">condn</string>
+    <string name="condition3">condn</string>
+    <string name="condition4">condn</string>
+    <string name="condition5">condn</string>
+    <string name="condition6">condn</string>
+    <string name="t1">8am-11am</string>
+    <string name="t2">11am-2pm</string>
+    <string name="t3">2pm-5pm</string>
+    <string name="t4">5pm-8pm</string>
+
+    <string name="enter1">Please enter your details</string>
+    <string name="area">Area</string>
+    <string name="pincode">Pincode</string>
+    <string name="dob">Date Of Birth</string>
+
+</resources>

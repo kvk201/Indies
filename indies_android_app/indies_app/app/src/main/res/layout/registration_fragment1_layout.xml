@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:padding="10dp"
+            android:text="@string/enter1" />
+
+        <EditText
+            android:id="@+id/f1_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/borders"
+            android:ems="10"
+            android:hint="@string/name"
+            android:layout_marginBottom="15dp"
+            android:inputType="textPersonName"
+            android:padding="15dp"
+            android:maxLines="1"
+            android:digits="@string/letters"/>
+
+        <EditText
+            android:id="@+id/f1_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/borders"
+            android:ems="10"
+            android:hint="@string/emailid"
+            android:layout_marginBottom="15dp"
+            android:inputType="textPersonName"
+            android:padding="15dp"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/f1_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/borders"
+            android:ems="10"
+            android:hint="@string/password"
+            android:layout_marginBottom="15dp"
+            android:inputType="textPassword"
+            android:padding="15dp"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/f1_password2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/borders"
+            android:ems="10"
+            android:hint="@string/cpassword"
+            android:layout_marginBottom="15dp"
+            android:inputType="textPassword"
+            android:padding="15dp"
+            android:maxLines="1"/>
+
+        <EditText
+            android:id="@+id/f1_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/borders"
+            android:ems="10"
+            android:hint="@string/phoneno"
+            android:layout_marginBottom="15dp"
+            android:inputType="phone"
+            android:padding="15dp"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:digits="@string/numbers"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,21 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <!-- Customize your theme here.-->
+        <item name="colorPrimary">@color/purple1</item>
+        <item name="colorPrimaryDark">@color/purple1</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
+    <!-- Customize your theme here.
+
+    <item name="android:background">#551a8b</item>
+
+
+
+    <style name="indie_actionbar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">#551a8b</item>
+    </style>-->
+</resources>
